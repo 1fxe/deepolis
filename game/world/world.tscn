@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3 uid="uid://cygen5f1al5p4"]
+
+[ext_resource type="PackedScene" uid="uid://biqjslx7i7l4o" path="res://player/player.tscn" id="1_f5tr2"]
+[ext_resource type="Script" path="res://world/Camera3D.gd" id="2_cl67r"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_sjtnu"]
+vertices = PackedVector3Array(-6.245, 0.02, -12.245, -12.245, 0.02, -12.245, -12.245, 0.02, -6.245, -12.245, 0.02, 6.005, -12.245, 0.02, 12.255, -6.245, 0.02, 12.255, 12.255, 0.02, -6.245, 12.255, 0.02, -12.245, 6.005, 0.02, -12.245, 6.005, 0.02, 12.255, 12.255, 0.02, 12.255, 12.255, 0.02, 6.005, -12.245, 0.02, 0.00500011, -12.245, 0.02, 6.005, -6.245, 0.02, 12.255, 12.255, 0.02, -6.245, 6.005, 0.02, -12.245, 0.00500011, 0.02, -12.245, 12.255, 0.02, 0.00500011, 0.00500011, 0.02, -12.245, -6.245, 0.02, -12.245, -12.245, 0.02, -6.245, -12.245, 0.02, 0.00500011, 0.00500011, 0.02, 12.255, 6.005, 0.02, 12.255, 12.255, 0.02, 6.005, 12.255, 0.02, 0.00500011, 0.00500011, 0.02, -12.245, -12.245, 0.02, 0.00500011, -6.245, 0.02, 12.255, 0.00500011, 0.02, 12.255, 12.255, 0.02, 6.005)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(5, 4, 3), PackedInt32Array(8, 7, 6), PackedInt32Array(11, 10, 9), PackedInt32Array(14, 13, 12), PackedInt32Array(16, 15, 17), PackedInt32Array(17, 15, 18), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 22), PackedInt32Array(25, 24, 23), PackedInt32Array(31, 30, 26), PackedInt32Array(26, 30, 29), PackedInt32Array(26, 29, 28), PackedInt32Array(26, 28, 27)]
+cell_height = 0.01
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0di1o"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cb234"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bo1si"]
+size = Vector3(2.0161, 0.001, 2.01443)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xdlry"]
+
+[sub_resource type="Sky" id="Sky_g052y"]
+sky_material = SubResource("ProceduralSkyMaterial_xdlry")
+
+[sub_resource type="Environment" id="Environment_d7blc"]
+background_mode = 2
+sky = SubResource("Sky_g052y")
+ambient_light_color = Color(0, 0.858824, 0.984314, 1)
+
+[node name="World" type="Node3D"]
+
+[node name="player" parent="." instance=ExtResource("1_f5tr2")]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_sjtnu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(12.745, 0, 0, 0, 12.745, 0, 0, 0, 12.745, 0, 0, 0)
+mesh = SubResource("PlaneMesh_0di1o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D"]
+physics_material_override = SubResource("PhysicsMaterial_cb234")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_bo1si")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_d7blc")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.456477, 0.889735, 0, -0.889735, 0.456477, -0.0735801, 8.70879, 4.05064)
+current = true
+script = ExtResource("2_cl67r")
